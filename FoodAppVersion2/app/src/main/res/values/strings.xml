@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">FoodAppVersion2</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Loading...</string>
+    <string name="text_review">Review</string>
+    <string name="item_foodhistory_change">Đổi</string>
+    <string name="item_foodhistory_delete">Xóa</string>
+    <!--fragment history-->
+    <string name="text_breakfast">Bữa sáng</string>
+    <string name="text_lunch">Bữa trưa</string>
+    <string name="text_dinner">Bữa tối</string>
+    <string name="text_snack">Bữa phụ</string>
+    <string name="text_add_food">Thêm</string>
+    <string name="text_see_ofday">Xem theo ngày</string>
+    <string name="noInternet">Check your internet connection.</string>
+    <string name="logging">Logging...</string>
+    <string name="serverError">Server is not responding</string>
+    <string name="emptyEmail">Email cannot be left blank</string>
+    <string name="invalidEmail">Invalid email format</string>
+    <string name="emptyPassword">Password required</string>
+    <string name="signUp">Sign Up</string>
+    <string name="login">Login</string>
+    <string name="forgotPassword">Forgot Password</string>
+</resources>
