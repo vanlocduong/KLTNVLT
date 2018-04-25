@@ -3,7 +3,7 @@
     <color name="colorPrimary">#009688</color>
     <color name="colorPrimaryDark">#00796B</color>
     <color name="colorPrimaryLight">#B2DFDB</color>
-    <color name="colorAccent">#607D8B</color>
+        <color name="colorAccent">#607D8B</color>
     <!---->
     <color name="primary_text">#212121</color>
     <color name="icons">#FFFFFF</color>
@@ -22,4 +22,16 @@
     <color name="colorFacebook">#4a6ea9</color>
     <color name="colorGoogle">#da4835</color>
     <color name="colorLabelFab">#000000</color>
+
+
+    <color name="bgToolbar">#183545</color>
+    <color name="colorWhite">#FFF</color>
+    <color name="bgLogo">#f67122</color>
+    <color name="colorGray">#CCC</color>
+
+    <color name="colorBlack">#000</color>
+    <color name="colorRed">#FFF62226</color>
+    <color name="tranparentBlack">#B2000000</color>
+    <color name="colorGreen">#38f734</color>
+    <color name="colorSliderInActive">#8095a1</color>
 </resources>

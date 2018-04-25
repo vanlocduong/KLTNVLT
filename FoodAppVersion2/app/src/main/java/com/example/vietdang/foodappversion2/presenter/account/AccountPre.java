@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.vietdang.foodappversion2.helper.APIService;
 import com.example.vietdang.foodappversion2.helper.ApiUtil;
 import com.example.vietdang.foodappversion2.model.user.UserProfile;
+import com.example.vietdang.foodappversion2.model.user.UserProfile1;
 import com.example.vietdang.foodappversion2.view.account.IDetailAccountView;
 
 import retrofit2.Call;
@@ -26,13 +27,12 @@ public class AccountPre implements IAccountPre {
 
     @Override
     public void onLoadAccountSuccess(int foodId) {
-        mService.getInForUser(foodId).enqueue(new retrofit2.Callback<UserProfile>() {
+        mService.getInForUser1(foodId).enqueue(new retrofit2.Callback<UserProfile1>() {
             @Override
-            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+            public void onResponse(Call<UserProfile1> call, Response<UserProfile1> response) {
                 if (response.isSuccessful()){
                     if (response.body() != null){
                         mIDetailAccountView.showData(response.body());
-                        mIDetailAccountView.showErrorLoadData("Da co du lieu");
                     }else {
                         mIDetailAccountView.showErrorLoadData("khonng co du lieu");
                     }
@@ -40,7 +40,7 @@ public class AccountPre implements IAccountPre {
             }
 
             @Override
-            public void onFailure(Call<UserProfile> call, Throwable t) {
+            public void onFailure(Call<UserProfile1> call, Throwable t) {
                 mIDetailAccountView.showErrorLoadData(t.getMessage());
             }
         });

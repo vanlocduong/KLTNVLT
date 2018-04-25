@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //luu user id vao preferences
         SharedPreferences sharedPreferences= this.getSharedPreferences("USer", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("UserID", Integer.valueOf(userId));
+        editor.putLong("UserID", Long.valueOf(userId));
         editor.commit();
         //
         toolBar = (Toolbar) findViewById(R.id.toolbar);

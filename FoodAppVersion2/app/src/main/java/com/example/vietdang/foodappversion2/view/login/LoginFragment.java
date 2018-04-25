@@ -22,6 +22,10 @@ import com.example.vietdang.foodappversion2.presenter.login.LoginPresenter;
 import com.example.vietdang.foodappversion2.view.BaseFragment;
 import com.example.vietdang.foodappversion2.view.home.HomeActivity;
 import com.example.vietdang.foodappversion2.view.signup.SignupFragment;
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.widget.LoginButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +38,8 @@ public class LoginFragment extends BaseFragment implements ILoginView, View.OnCl
     private ILoginPresenter presenter;
     private String usName,pass;
     private CheckBox cbRememberUserPass;
-   private Button loginBtn, btnSignup;
+   private Button loginBtn, btnSignup, btn_login_facebook;
+
     private static final String SPF_NAME = "vidslogin"; //  <--- Add this
     private static final String USERNAME = "username";  //  <--- To save username
     private static final String PASSWORD = "password";  //  <--- To save password
@@ -51,6 +56,8 @@ public class LoginFragment extends BaseFragment implements ILoginView, View.OnCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        FacebookSdk.sdkInitialize(getActivity());
+        AppEventsLogger.activateApp(getActivity());
         View rootView = inflater.inflate(R.layout.login_demo, container, false);
         presenter=new LoginPresenter(this);
 //        userName = (EditText) rootView.findViewById(R.id.et_username);
@@ -61,6 +68,7 @@ public class LoginFragment extends BaseFragment implements ILoginView, View.OnCl
         cbRememberUserPass=(CheckBox)rootView.findViewById(R.id.checkBox_signin_remember);
         loginBtn = (Button) rootView.findViewById(R.id.btn_singin_login);
         btnSignup=(Button) rootView.findViewById(R.id.btn_singin_register) ;
+        btn_login_facebook=(Button)rootView.findViewById(R.id.btn_singin_loginfb);
 
         sharedPreferences= getActivity().getSharedPreferences("loginPrefs",Context.MODE_PRIVATE);
         sharedPreferencesEditor=sharedPreferences.edit();
@@ -73,6 +81,7 @@ public class LoginFragment extends BaseFragment implements ILoginView, View.OnCl
         }
 
 
+        btn_login_facebook.setOnClickListener(this);
         loginBtn.setOnClickListener(this);
         btnSignup.setOnClickListener(this);
         return rootView;
@@ -95,6 +104,18 @@ public class LoginFragment extends BaseFragment implements ILoginView, View.OnCl
                 startActivity(intent);
 
                 break;
+            case R.id.btn_singin_loginfb:
+                if (AccessToken.getCurrentAccessToken() == null) {
+                    Intent loginIntent = new Intent(getActivity(), FacebookLoginActivity.class);
+                    startActivity(loginIntent);
+                }
+                else{
+                    Intent loginIntent = new Intent(getActivity(), FacebookLoginActivity.class);
+                    startActivity(loginIntent);
+
+                }
+                break;
+
         }
     }
 

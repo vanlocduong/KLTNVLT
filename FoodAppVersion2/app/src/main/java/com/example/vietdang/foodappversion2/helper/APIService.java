@@ -10,6 +10,7 @@ import com.example.vietdang.foodappversion2.model.overview.UserBodyInfo;
 import com.example.vietdang.foodappversion2.model.recommend.SettingUserInfoRequest;
 import com.example.vietdang.foodappversion2.model.searchfood.FoodSearch;
 import com.example.vietdang.foodappversion2.model.user.UserProfile;
+import com.example.vietdang.foodappversion2.model.user.UserProfile1;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -66,7 +68,13 @@ public interface APIService {
     @GET("api/account/detail/{id}")
     Call<UserProfile> getInForUser(@Path("id") int UserId);
 
+    @GET("api/account/detail/{id}")
+    Call<UserProfile1> getInForUser1(@Path("id") int UserId);
+
     @POST("api/account/add")
     Call<UserProfile> signUp(@Body UserProfile addUser);
+
+    @PUT("api/account/update")
+    Call<UserProfile> updateUser(@Body UserProfile userProfile);
 
 }

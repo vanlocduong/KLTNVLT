@@ -2,6 +2,7 @@ package com.example.vietdang.foodappversion2.view.signup;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -31,8 +32,11 @@ import com.example.vietdang.foodappversion2.presenter.signup.ISignupPre;
 import com.example.vietdang.foodappversion2.presenter.signup.SignupPre;
 import com.example.vietdang.foodappversion2.view.login.LoginFragment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,10 +54,14 @@ public class SignupFragment extends AppCompatActivity implements ISignupView,Vie
     private TextInputLayout input_edt_resgiterlayout_fullname,input_edt_resgiterlayout_address,
             input_edt_resgiterlayout_email,
             input_edt_resgiterlayout_username,input_edt_resgiterlayout_pass,input_edt_resgiterlayout_cfpass;
-    private DatePicker dpBirthDay;
+    private TextView txt_showDate;
+
     private Boolean checkInfo = false;
-    private Button btnSummit, btnCancel;
-    LoginFragment loginFragment;
+    private Button btnSummit, btnCancel,btn_showDate;
+    private LoginFragment loginFragment;
+
+
+    private int mYear, mMonth, mDay, mHour, mMinute;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +71,7 @@ public class SignupFragment extends AppCompatActivity implements ISignupView,Vie
         anhXa();
         btnSummit.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
+        btn_showDate.setOnClickListener(this);
 
         edtUserName.setOnFocusChangeListener(this);
         edtPass.setOnFocusChangeListener(this);
@@ -76,30 +85,15 @@ public class SignupFragment extends AppCompatActivity implements ISignupView,Vie
     public int getGioiTinh(){
         int gioiTinh=1;
         if(rdNam.isChecked()){
-            return  gioiTinh=0;
+            return  gioiTinh=1;
         }
         if (rdNu.isChecked()){
-            return gioiTinh=1;
+            return gioiTinh=0;
         }
 
         return gioiTinh;
     }
-//    // get level hoat dong
-//    public int getLevelActivity(){
-//        int levelActivity=1;
-//        if(rdActivityIt.isChecked()){
-//            return  levelActivity=1;
-//        }else if(rdActivityVua.isChecked()){
-//            return levelActivity=2;
-//        }
-//        else if(rdActivityNhieu.isChecked()){
-//            return levelActivity=3;
-//        }
-//        else if(rdActivityRatNhieu.isChecked()){
-//            return levelActivity=4;
-//        }
-//        return levelActivity;
-//    }
+
     //2 get day time he thong
     public static java.util.Date getDateFromDatePicker(DatePicker datePicker){
         int day = datePicker.getDayOfMonth();
@@ -112,21 +106,21 @@ public class SignupFragment extends AppCompatActivity implements ISignupView,Vie
         return calendar.getTime();
     }
     //2 lan nge su kien click
-    public void setupDatePicker(){
-        Calendar calendar = Calendar.getInstance();
-        // Lấy ra năm - tháng - ngày hiện tại
-        int year = calendar.get(calendar.YEAR);
-        final int month = calendar.get(calendar.MONTH);
-        int day = calendar.get(calendar.DAY_OF_MONTH);
-
-        // Khởi tạo sự kiện lắng nghe khi DatePicker thay đổi
-        dpBirthDay.init(year,month,day,new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Toast.makeText(getApplicationContext(), dayOfMonth+"-"+monthOfYear+"-"+year, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    public void setupDatePicker(){
+//        Calendar calendar = Calendar.getInstance();
+//        // Lấy ra năm - tháng - ngày hiện tại
+//        int year = calendar.get(calendar.YEAR);
+//        final int month = calendar.get(calendar.MONTH);
+//        int day = calendar.get(calendar.DAY_OF_MONTH);
+//
+//        // Khởi tạo sự kiện lắng nghe khi DatePicker thay đổi
+//        dpBirthDay.init(year,month,day,new DatePicker.OnDateChangedListener() {
+//            @Override
+//            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                Toast.makeText(getApplicationContext(), dayOfMonth+"-"+monthOfYear+"-"+year, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     @Override
     public void addUserSuccess(String msg) {
@@ -208,6 +202,7 @@ public class SignupFragment extends AppCompatActivity implements ISignupView,Vie
 
     }
     public void anhXa(){
+        txt_showDate=(TextView)findViewById(R.id.txtHienThiDate);
         edtFullName=(EditText)findViewById(R.id.edtFullName);
         edtAddress=(EditText)findViewById(R.id.edtAddress);
         edtEmail=(EditText)findViewById(R.id.edtEmail);
@@ -218,13 +213,15 @@ public class SignupFragment extends AppCompatActivity implements ISignupView,Vie
         btnSummit=(Button)findViewById(R.id.submit);
         rdNam=(RadioButton)findViewById(R.id.rdNam);
         rdNu=(RadioButton)findViewById(R.id.rdNu);
-        dpBirthDay=(DatePicker) findViewById(R.id.dtBirthDay) ;
+
         input_edt_resgiterlayout_cfpass=(TextInputLayout)findViewById(R.id.input_edt_resgiterlayout_cfpass);
         input_edt_resgiterlayout_fullname=(TextInputLayout)findViewById(R.id.input_edt_resgiterlayout_fullname);
         input_edt_resgiterlayout_address=(TextInputLayout)findViewById(R.id.input_edt_resgiterlayout_address);
         input_edt_resgiterlayout_email=(TextInputLayout)findViewById(R.id.input_edt_resgiterlayout_email);
         input_edt_resgiterlayout_username=(TextInputLayout)findViewById(R.id.input_edt_resgiterlayout_username);
         input_edt_resgiterlayout_pass=(TextInputLayout)findViewById(R.id.input_edt_resgiterlayout_pass);
+
+        btn_showDate=(Button)findViewById(R.id.btn_showDate);
     }
     @Override
     public void onBackPressed() {
@@ -262,6 +259,23 @@ public class SignupFragment extends AppCompatActivity implements ISignupView,Vie
     public void onClick(View view) {
         int id= view.getId();
         switch (id){
+            case R.id.btn_showDate:
+
+                final Calendar c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                        txt_showDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+
+                    }
+                }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+                break;
+
             case R.id.cancel:
                 android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
                 fragmentManager.beginTransaction()
@@ -272,12 +286,13 @@ public class SignupFragment extends AppCompatActivity implements ISignupView,Vie
                 String Name = edtFullName.getText().toString().trim();
                 String Pass = edtPass.getText().toString().trim();
                 String FullName = edtFullName.getText().toString().trim();
-//2
+//2 get date
 
-                Date date = getDateFromDatePicker(dpBirthDay);
+//                Date date = getDateFromDatePicker(dpBirthDay);
                 String Address = edtAddress.getText().toString().trim();
                 String Email = edtEmail.getText().toString().trim();
                 String cfMatKhau=edtcfPass.getText().toString().trim();
+                String birthDayTemp = txt_showDate.getText().toString().trim();
                 Integer gioiTinh = getGioiTinh();
 
                 boolean invalid = false;
@@ -329,12 +344,15 @@ public class SignupFragment extends AppCompatActivity implements ISignupView,Vie
                 }
                 else if (!invalid)
                 {
-                    UserProfile userProfile = new UserProfile(Name, Pass, FullName, Address, Email, gioiTinh, date);
+
+                    UserProfile userProfile = new UserProfile(Name, Pass, FullName, Address, Email, gioiTinh, convertToDate(birthDayTemp));
                     iSignupPre.AddUserSuccess(userProfile);
-                    fragmentManager=getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.linearLayout,loginFragment)
-                            .commit();
+                    Toast.makeText(getApplicationContext(),"thanh cong",Toast.LENGTH_SHORT).show();
+//                    fragmentManager=getSupportFragmentManager();
+//                    loginFragment= new LoginFragment();
+//                    fragmentManager.beginTransaction()
+//                            .replace(R.id.linearLayout,loginFragment)
+//                            .commit();
                 }
                 break;
             }
@@ -369,5 +387,18 @@ public class SignupFragment extends AppCompatActivity implements ISignupView,Vie
         }
         return true;
     }
+
+    public Date convertToDate(String date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        Date date1=null;
+        try {
+            date1= dateFormat.parse(date);
+            System.out.println(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date1;
+    }
+
 
 }
